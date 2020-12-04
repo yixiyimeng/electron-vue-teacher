@@ -1,0 +1,21 @@
+version: 2
+jobs:
+    build:
+        docker:
+            - image: electronuserland/builder:wine
+        parallelism: 1
+        working_directory: ~/yixiyimeng/mvave
+        steps:
+            - checkout
+            - attach_workspace:
+                  at: ~/yixiyimeng/mvave
+            - restore_cache:
+                  key: v1-yarn-{{ checksum "package.json" }}
+            - run: npm install
+            - save_cache:
+                  key: v1-yarn-{{ checksum "package.json" }}
+                  paths:
+                      - ./node_modules
+            - run: npm run build
+            - store_artifacts:
+                  path: ~/yixiyimeng/mvave/build
