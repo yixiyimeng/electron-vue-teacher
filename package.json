@@ -4,8 +4,8 @@
   "description": "electron-网易云音乐",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service electron:build",
-    "release": "vue-cli-service electron:build",
+    "build": "vue-cli-service electron:build --win",
+	"release": "vue-cli-service electron:build",
     "start": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
