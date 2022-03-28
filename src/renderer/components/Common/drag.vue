@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     _initDrag () {
-      const Draggabilly = require('draggabilly')
+	const Draggabilly = require('draggabilly')
       this.drag = new Draggabilly(this.$refs.drag, {
         axis: this.axis, // 限制在仅在x或y轴上可拖动,默认均可拖动
         containment: this.containment, // Element,Selector String,限制元素可拖动范围,true为父元素

@@ -94,8 +94,8 @@ module.exports = {
 		loaderOptions: {
 			less: {
 				modifyVars: {
-					'primary-color': '#c62f2f',
-					'link-color': '#c62f2f',
+					'primary-color': '#42A3E7',
+					'link-color': '#42A3E7',
 					'border-radius-base': '4px'
 				},
 				javascriptEnabled: true
@@ -139,8 +139,8 @@ module.exports = {
 						target: 'nsis',
 						// 这个意思是打出来32 bit + 64 bit的包，但是要注意：这样打包出来的安装包体积比较大，所以建议直接打32的安装包。
 						'arch': [
-							'x64'
-							// 'ia32'
+							// 'x64'
+							'ia32'
 						]
 					}]
 				},

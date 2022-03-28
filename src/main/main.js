@@ -1,11 +1,12 @@
-import electron,{
+import electron, {
 	app,
 	protocol,
 	Tray,
 	BrowserWindow,
 	ipcMain,
 	shell,
-	screen
+	screen,
+	globalShortcut
 } from 'electron'
 import path from 'path'
 import pkg from './../../package.json'
@@ -44,30 +45,30 @@ const playIcon = process.env.NODE_ENV === 'development' ? 'public/images/play.pn
 const pauseIcon = process.env.NODE_ENV === 'development' ? 'public/images/pause.png' : `${global.__images}/pause.png`
 // 设置底部任务栏按钮和缩略图
 const setThumbarButtons = function(mainWindow, playing) {
-	mainWindow.setThumbarButtons([{
-			tooltip: '上一曲',
-			icon: prevIcon,
-			click() {
-				mainWindow.webContents.send('prev-play')
-			}
-		},
-		{
-			tooltip: playing ? '暂停' : '播放',
-			icon: playing ? pauseIcon : playIcon,
-			click() {
-				mainWindow.webContents.send('toggle-play', {
-					value: !playing
-				})
-			}
-		},
-		{
-			tooltip: '下一曲',
-			icon: nextIcon,
-			click() {
-				mainWindow.webContents.send('next-play')
-			}
-		}
-	])
+	// mainWindow.setThumbarButtons([{
+	// 		tooltip: '上一曲',
+	// 		icon: prevIcon,
+	// 		click() {
+	// 			mainWindow.webContents.send('prev-play')
+	// 		}
+	// 	},
+	// 	{
+	// 		tooltip: playing ? '暂停' : '播放',
+	// 		icon: playing ? pauseIcon : playIcon,
+	// 		click() {
+	// 			mainWindow.webContents.send('toggle-play', {
+	// 				value: !playing
+	// 			})
+	// 		}
+	// 	},
+	// 	{
+	// 		tooltip: '下一曲',
+	// 		icon: nextIcon,
+	// 		click() {
+	// 			mainWindow.webContents.send('next-play')
+	// 		}
+	// 	}
+	// ])
 }
 
 function createWindow() {
@@ -76,10 +77,10 @@ function createWindow() {
 		height
 	} = screen.getPrimaryDisplay().workAreaSize
 	mainWindow = new BrowserWindow({
-		width: 1000,
-		height: 690,
-		minWidth: 1000,
-		minHeight: 690,
+		width: width,
+		height: height,
+		minWidth: width,
+		minHeight: height,
 		title: pkg.description,
 		icon: previewIcon,
 		frame: false,
@@ -89,7 +90,7 @@ function createWindow() {
 			nodeIntegrationInWorker: true,
 			webSecurity: false,
 			navigateOnDragDrop: true,
-			devTools: true
+			devTools: true,
 		},
 		transparent: true,
 		resizable: false,
@@ -102,7 +103,7 @@ function createWindow() {
 	}
 	// 去除原生顶部菜单栏
 	mainWindow.setMenu(null)
-
+	mainWindow.maximize();
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
 		mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
 	} else {
@@ -145,8 +146,14 @@ function createWindow() {
 		// 打开调试窗口
 		// mainWindow.webContents.openDevTools()
 	}
-	mainWindow.webContents.openDevTools()
-
+	// mainWindow.webContents.openDevTools()
+	/* 调试 */
+	globalShortcut.register('CTRL+T', () => {
+		//mainWindow.setFullScreen(false);
+		mainWindow.webContents.openDevTools({
+			mode: 'bottom'
+		})
+	})
 	global.mainWindow = mainWindow
 	// 初始化进程之间事件监听
 	initIpcEvent()

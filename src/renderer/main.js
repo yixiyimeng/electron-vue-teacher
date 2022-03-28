@@ -20,6 +20,11 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 import websocket from './store/websocketStore'
 Vue.prototype.$websocket = websocket;
 
+// import VideoPlayer from 'vue-video-player'
+// require('video.js/dist/video-js.css')
+// require('vue-video-player/src/custom-theme.css')
+// Vue.use(VideoPlayer)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

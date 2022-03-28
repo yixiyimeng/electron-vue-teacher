@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import {
 	ipcRenderer
 } from 'electron'
+import BasicLayout from '@/layouts/BasicLayout'
 import Toast from './../components/Toast/toast'
 Vue.use(Router)
 
@@ -11,10 +12,33 @@ const router = new Router({
 	routes: [{
 			path: '/',
 			name: 'index',
-			component: function(resolve) {
-				require(['@/views/index/index.vue'], resolve)
-			}
-			// redirect: '/home',
+			component: BasicLayout,
+			redirect: '/login',
+			children: [{
+				path: '/login',
+				name: 'login',
+				component: function(resolve) {
+					require(['@/views/login/index.vue'], resolve)
+				}
+			}, {
+				path: '/classroom',
+				name: 'classroom',
+				component: function(resolve) {
+					require(['@/views/classroom/index.vue'], resolve)
+				}
+			}, {
+				path: '/teacherroom',
+				name: 'teacherroom',
+				component: function(resolve) {
+					require(['@/views/teacherroom/index.vue'], resolve)
+				}
+			}, {
+				path: '/home',
+				name: 'home',
+				component: function(resolve) {
+					require(['@/views/index/index.vue'], resolve)
+				}
+			}]
 			// children: [
 			//   ...recommendRoutes,
 			//   ...rankRoutes,

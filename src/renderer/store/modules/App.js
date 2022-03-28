@@ -1,54 +1,52 @@
 import ls from 'store'
 const state = {
-  primaryColor: '',
-  isChangingColor: false,
-  redirect: '/home',
-  partRefreshFlag: false,
-  showView: false,
-  showDesktoplyric: false,
-  isOnliline: navigator.onLine,
-  noLimitRoutes: ['music_local', 'music_download', 'setting']
+	primaryColor: '',
+	stuNameState: false, //显示或者隐藏签到学生名单
+	rollCallState: false, //显示或者隐藏点名学生名单
 }
 
 const getters = {
-  primaryColor: state => state.primaryColor,
-  showView: state => state.showView,
-  showDesktoplyric: state => state.showDesktoplyric,
-  isOnliline: state => state.isOnliline
+
 }
 
 const mutations = {
-  SET_SHOW_DESKTOP_LYRIC (state, flag) {
-    state.showDesktoplyric = flag
-  },
-  CHANGE_COLOR (state, color) {
-    state.primaryColor = color
-    ls.set('DEFAULT_COLOR', color)
-  },
-  SET_IS_CHANGING_COLOR (state, status) {
-    state.isChangingColor = status
-  },
-  SET_REDIRECT (state, url) {
-    state.redirect = url
-  },
-  SHOW_VIEW (state, flag) {
-    state.showView = flag
-  },
-  SET_ONLINE (state, flag) {
-    state.isOnliline = flag
-  }
+	CHANGE_COLOR(state, color) {
+		state.primaryColor = color
+		ls.set('DEFAULT_COLOR', color)
+	},
+	SET_STUNAME_STATE(state, flag) {
+		state.stuNameState = flag
+	},
+	TOGGLE_STUNAME_STATE(state) {
+		state.stuNameState = !state.stuNameState
+	},
+	SET_ROLLCALL_STATE(state, flag) {
+		state.rollCallState = flag
+	},
 }
 
 const actions = {
-  toggleColor ({ commit }, color) {
-    commit('CHANGE_COLOR', color)
-  }
+	toggleStuNameState({
+		commit
+	}) {
+		commit('TOGGLE_STUNAME_STATE')
+	},
+	setStuNameState({
+		commit
+	}, flag) {
+		commit('SET_STUNAME_STATE', flag)
+	},
+	setRollCallState({
+		commit
+	}, flag) {
+		commit('SET_ROLLCALL_STATE', flag)
+	}
 }
 
 export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions
+	namespaced: true,
+	state,
+	getters,
+	mutations,
+	actions
 }

@@ -1,5 +1,6 @@
 <template>
-	<div ref="app" id="app">
+	<div ref="app" id="app" :class="theme">
+		<div class="changeTheme" @click="changeTheme">换肤</div>
 		<keep-alive><router-view /></keep-alive>
 	</div>
 </template>
@@ -9,20 +10,24 @@ import { mapActions } from 'vuex';
 
 export default {
 	name: 'app',
-	components: {},
-	methods: {},
-	created() {
-		
+	data() {
+		return {
+			theme: 'theme1'
+		};
 	},
+	components: {},
+	methods: {
+		changeTheme() {
+			this.theme = this.theme == 'theme1' ? 'theme2' : 'theme1';
+		}
+	},
+	created() {},
 	mounted() {
 		this.$electron.ipcRenderer.on('will-close', () => {
-			this.handleAppWillClose();
 			this.$electron.ipcRenderer.send('app-exit');
 		});
 
-		window.onunload = () => {
-			this.handleAppWillClose();
-		};
+		window.onunload = () => {};
 
 		window.onoffline = () => {
 			this.handleNetworkChange(
@@ -44,3 +49,7 @@ export default {
 	}
 };
 </script>
+<style lang="less">
+	
+
+</style>
